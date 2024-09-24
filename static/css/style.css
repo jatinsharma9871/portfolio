@@ -10,6 +10,14 @@ body {
     height: 100%; /* Fullscreen BG */
     width: 100%;
 }
+@media (min-width: 568px) {
+    .carousel-control-next {
+        display: none;
+    }
+    .carousel-control-prev {
+display: none;
+    }
+}
 
 body {
     color: #423e3a;
@@ -640,6 +648,7 @@ hr {
     .carousel-control-prev-icon {
         margin-left: -9.5rem;
         width: 25px;
+        
     }
     .carousel-control-next-icon {
         margin-right: -9.5rem;
@@ -673,7 +682,7 @@ hr {
         height: 795px;
     }
     .card {
-        height: 27rem;
+        height: 37rem;
     }
 }
 
@@ -767,6 +776,7 @@ a:hover {
     #contact {
         background-size: 280%;
     }
+    
     
 }
 
