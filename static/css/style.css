@@ -634,7 +634,7 @@ hr {
 }
 
 /* Media queries for projects section */
-@media (max-width: 1050px) {
+@media (max-width: 1450px) {
     #projects {
         height: 825px;
     }
@@ -655,7 +655,7 @@ hr {
         width: 25px;
     }
     .card {
-        height: 28rem;
+        height: 40rem;
     }
 }
 
@@ -673,7 +673,7 @@ hr {
         margin-right: -7.5rem;
     }
     .card {
-        height: 28rem;
+        height: 30rem;
     }
 }
 
