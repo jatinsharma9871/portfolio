@@ -1,120 +1,108 @@
-$(document).ready(function () {
-    // add navbar background color when scrolled
-    $(window).scroll(function () {
-        if ($(window).scrollTop() > 56) {
-            $(".navbar").addClass("bg-white");
-        } else {
-            $(".navbar").removeClass("bg-white");
-        }
-    });
-    // if mobile, add background color when toggler is clicked
-    $(".navbar-toggler").click(function () {
-        if (!$(".navbar-collapse").hasClass("show")) {
-            $(".navbar").addClass("bg-white");
-        } else {
-            if ($(window).scrollTop() < 56) {
-                $(".navbar").removeClass("bg-white");
-            } else {
-            }
-        }
-    });
+// AOS init
+AOS.init({
+  duration: 1200,
+  once: true,
 });
 
-// projects carousel
-$(document).ready(function () {
-    $("#myCarousel").on("slide.bs.carousel", function (e) {
-        let $e = $(e.relatedTarget);
-        let idx = $e.index();
-        let itemsPerSlide = 3;
-        let totalItems = $(".carousel-item").length;
+// YEAR
+document.getElementById("year").innerText = new Date().getFullYear();
 
-        if (idx >= totalItems - (itemsPerSlide - 1)) {
-            let it = itemsPerSlide - (totalItems - idx);
-            for (let i = 0; i < it; i++) {
-                // append slides to end
-                if (e.direction == "left") {
-                    $(".carousel-item").eq(i).appendTo(".carousel-inner");
-                } else {
-                    $(".carousel-item")
-                        .eq(0)
-                        .appendTo($(this).find(".carousel-inner"));
-                }
-            }
-        }
-    });
+// NAV MOBILE
+const menuBtn = document.getElementById("menuBtn");
+const navLinks = document.getElementById("navLinks");
+
+menuBtn.addEventListener("click", () => {
+  navLinks.classList.toggle("show");
 });
 
-// centers the about me paragraph text for mobile screens
-$(window).on("resize", function () {
-    let win = $(this);
-    if (win.width() < 540) {
-        $("div").removeClass("text-left");
+// CLOSE MENU ON CLICK
+document.querySelectorAll(".nav-links a").forEach((a) => {
+  a.addEventListener("click", () => navLinks.classList.remove("show"));
+});
+
+// SCROLL PROGRESS
+const progress = document.getElementById("progress");
+window.addEventListener("scroll", () => {
+  const scrolled = (window.scrollY / (document.body.scrollHeight - window.innerHeight)) * 100;
+  progress.style.width = scrolled + "%";
+});
+
+// TYPING EFFECT
+const typingEl = document.getElementById("typing");
+const words = ["Full Stack Web Developer.", "Senior Shopify Developer.", "Shopify Theme + CRO Expert."];
+let wordIndex = 0;
+let charIndex = 0;
+let deleting = false;
+
+function typeEffect() {
+  const currentWord = words[wordIndex];
+
+  if (!deleting) {
+    typingEl.textContent = currentWord.slice(0, charIndex++);
+    if (charIndex > currentWord.length) {
+      deleting = true;
+      setTimeout(typeEffect, 1200);
+      return;
     }
-});
-
-// makes iPad (only) show two project cards instead of three - looks better this way on ipads
-$(window).on("resize", function () {
-    let win = $(this);
-    if (win.width() < 769) {
-        $(".carousel-item").removeClass("col-md-4").addClass("col-md-6");
+  } else {
+    typingEl.textContent = currentWord.slice(0, charIndex--);
+    if (charIndex < 0) {
+      deleting = false;
+      wordIndex = (wordIndex + 1) % words.length;
     }
-});
+  }
 
-$(window).on("resize", function () {
-    let win = $(this);
-    if (win.width() > 770) {
-        $(".carousel-item").removeClass("col-md-6").addClass("col-md-4");
-    }
-});
+  setTimeout(typeEffect, deleting ? 45 : 70);
+}
+typeEffect();
 
-// function for smooth scroll
-let $scrollButton = $(".scroll");
+// PROJECTS DATA + MODAL (Sverve added as index 0)
+const projects = [
+  {
+    title: "Sverve By Gash",
+    desc: "Currently working as Senior Shopify Developer on thesverve.com. Delivered theme improvements, speed optimization, metafields, advanced filters, custom sections, homepage redesign enhancements and conversion focused updates.",
+    img: "static/images/sverve.png",
+    link: "https://thesverve.com/",
+  },
+  {
+    title: "SehatUP",
+    desc: "Optimized platform UX, improved consultation flow, Shopify enhancements, API integrations and performance improvements.",
+    img: "static/images/pai.png",
+    link: "https://sehatup.com/",
+  },
+  {
+    title: "Doctor Bhargava",
+    desc: "Built scalable site features, improved load speed, added custom integrations for better user experience and growth.",
+    img: "static/images/reebok.png",
+    link: "https://www.doctorbhargava.com/",
+  },
+  {
+    title: "Bio Valley",
+    desc: "Developed and optimized Shopify store with performance + CRO improvements and integrations for global reach.",
+    img: "static/images/UrbanLadde.png",
+    link: "https://bio-valley.com/",
+  },
+];
 
-$scrollButton.on("click", function (e) {
-    e.preventDefault();
-    let $link = $(this).attr("href");
-    $("html, body").animate(
-        {
-            scrollTop: $($link).offset().top - 60,
-        },
-        1000
-    );
-});
+const modal = document.getElementById("projectModal");
+const modalImg = document.getElementById("modalImg");
+const modalTitle = document.getElementById("modalTitle");
+const modalDesc = document.getElementById("modalDesc");
+const modalLink = document.getElementById("modalLink");
 
-// closes hamburger bar when link is clicked
-$(".nav-link").on("click", function () {
-    $(".navbar-collapse").collapse("hide");
-});
+function openProject(index) {
+  modal.classList.add("show");
+  modalImg.src = projects[index].img;
+  modalTitle.textContent = projects[index].title;
+  modalDesc.textContent = projects[index].desc;
+  modalLink.href = projects[index].link;
+}
 
-// change margin of about paragraph on mobile phones
-$(window).on("resize", function () {
-    let win = $(this);
-    if (win.width() < 540) {
-        $("#about-para").removeClass("pl-5").addClass("pl-4");
-    }
-});
+function closeProject() {
+  modal.classList.remove("show");
+}
 
-// change margin of profile photo for iPad pro only
-$(window).on("resize", function () {
-    let win = $(this);
-    if (win.width() < 1025 && win.width() > 1023) {
-        $(".profile").removeClass("pr-1").addClass("pr-5");
-    }
-});
-
-// removes image caption on mobile view
-// $(window).on("resize", function () {
-//     let win = $(this);
-//     if (win.width() < 540) {
-//         $(".img-caption").removeClass("img-caption").addClass("empty pb-5");
-//         $("h3").removeClass("pt-2").addClass("pt-5");
-//     }
-// });
-
-// animate on scroll library
-AOS.init();
-
-// enable the tooltip
-$(document).ready(function () {
-    $('[data-toggle="tooltip"]').tooltip();
+// close modal on background click
+modal.addEventListener("click", (e) => {
+  if (e.target.id === "projectModal") closeProject();
 });
