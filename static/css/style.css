@@ -23,7 +23,10 @@ body {
   color: var(--text);
   overflow-x: hidden;
 }
-
+html, body {
+  max-width: 100%;
+  overflow-x: hidden;
+}
 /* Scroll Progress */
 #progress {
   position: fixed;
@@ -40,7 +43,10 @@ body {
   width: min(1150px, 90%);
   margin: 0 auto;
 }
-
+.container {
+  width: min(1150px, 100%);
+  padding: 0 16px;
+}
 .section {
   padding: 90px 0;
 }
@@ -201,10 +207,11 @@ body {
 
 .typing {
   display: inline-block;
-  margin-top: 6px;
-  font-size: 32px;
-  font-weight: 800;
-  color: rgba(255, 255, 255, 0.88);
+  max-width: 100%;      /* prevents overflow */
+  width: 26ch;
+  white-space: nowrap;
+  overflow: hidden;
+  border-right: 2px solid currentColor;
 }
 
 .sub {
@@ -292,8 +299,8 @@ body {
   width: 100%;
   height: 360px;
   object-fit: cover;
+  display: block;
 }
-
 .profile-content {
   padding: 18px;
 }
@@ -685,5 +692,67 @@ body {
 
   .menu-btn {
     display: block;
+  }
+}
+/* 🔥 PREMIUM TYPING (NO LAYOUT SHIFT) */
+/* ✅ FIXED: responsive + no overflow */
+.typing {
+  display: inline-block;
+  max-width: 100%;
+  width: min(26ch, 100%);
+  white-space: nowrap;
+  overflow: hidden;
+  border-right: 2px solid currentColor;
+  vertical-align: bottom;
+  animation: blink 1s infinite;
+}
+
+@keyframes blink {
+  50% { border-color: transparent; }
+}
+/* cursor blink */
+
+@media (max-width: 900px) {
+  .hero-grid {
+    gap: 24px;   /* reduce spacing */
+  }
+}.container {
+  overflow: hidden;
+}
+@media (max-width: 600px) {
+  .typing {
+    width: 100%;
+  }
+}.hero-left h1 {
+  word-break: break-word;
+  font-size: 25px;
+}
+
+}
+.hero {
+  position: relative;
+}
+
+/* Fix the right image position */
+.hero-right {
+  position: absolute;
+  right: 5%;
+  top: 50%;
+  transform: translateY(-50%);
+  width: 320px;
+  z-index: 2;
+}
+
+/* Prevent layout shift from left content */
+.hero-left {
+  max-width: 600px;
+}
+
+/* Optional: make responsive */
+@media (max-width: 900px) {
+  .hero-right {
+    position: static;
+    transform: none;
+    margin-top: 40px;
   }
 }

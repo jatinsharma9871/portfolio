@@ -28,33 +28,50 @@ window.addEventListener("scroll", () => {
 });
 
 // TYPING EFFECT
+// 🔥 PREMIUM TYPING (STABLE + NO SHIFT)
 const typingEl = document.getElementById("typing");
-const words = ["Full Stack Web Developer.", "Senior Shopify Developer.", "Shopify Theme + CRO Expert."];
+
+const words = [
+  "Full Stack Web Developer",
+ "Senior Shopify Developer",
+  "Shopify Theme + CRO Expert"
+];
+
 let wordIndex = 0;
 let charIndex = 0;
 let deleting = false;
 
 function typeEffect() {
+  if (!typingEl) return;
+
   const currentWord = words[wordIndex];
 
   if (!deleting) {
-    typingEl.textContent = currentWord.slice(0, charIndex++);
-    if (charIndex > currentWord.length) {
-      deleting = true;
-      setTimeout(typeEffect, 1200);
-      return;
-    }
+    typingEl.textContent = currentWord.substring(0, charIndex++);
   } else {
-    typingEl.textContent = currentWord.slice(0, charIndex--);
-    if (charIndex < 0) {
-      deleting = false;
-      wordIndex = (wordIndex + 1) % words.length;
-    }
+    typingEl.textContent = currentWord.substring(0, charIndex--);
   }
 
-  setTimeout(typeEffect, deleting ? 45 : 70);
+  let speed = deleting ? 40 : 70;
+
+  // pause at full word
+  if (!deleting && charIndex === currentWord.length) {
+    speed = 1200;
+    deleting = true;
+  }
+
+  // move to next word (FIXED: no negative index)
+  else if (deleting && charIndex === 0) {
+    deleting = false;
+    wordIndex = (wordIndex + 1) % words.length;
+    speed = 300;
+  }
+
+  setTimeout(typeEffect, speed);
 }
-typeEffect();
+
+// ✅ start safely
+document.addEventListener("DOMContentLoaded", typeEffect);
 
 // PROJECTS DATA + MODAL (Sverve added as index 0)
 const projects = [
