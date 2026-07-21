@@ -78,7 +78,7 @@ const projects = [
   {
     title: "Sverve By Gash",
     desc: "Currently working as Senior Shopify Developer on thesverve.com. Delivered theme improvements, speed optimization, metafields, advanced filters, custom sections, homepage redesign enhancements and conversion focused updates.",
-    img: "static/images/sverve.png",
+    img: "static/images/Sverve.png",
     link: "https://thesverve.com/",
   },
   {
